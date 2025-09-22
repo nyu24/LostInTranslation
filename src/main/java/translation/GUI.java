@@ -1,6 +1,7 @@
 package translation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 
@@ -35,6 +36,36 @@ public class GUI {
             buttonPanel.add(resultLabel);
 
 
+            // LIST
+
+            LanguageCodeConverter languageCodeConverter = new LanguageCodeConverter("language-codes.txt");
+            CountryCodeConverter cCode = new CountryCodeConverter("country-codes.txt");
+
+            JPanel countryNameListPanel = new JPanel();
+            countryNameListPanel.setLayout(new BoxLayout(countryNameListPanel, BoxLayout.Y_AXIS));
+//            countryNameListPanel.setLayout(new GridLayout(0, 2));
+            countryNameListPanel.add(new JLabel(""), 0);
+
+            Translator translator = new JSONTranslator("sample.json");;
+
+            String[] items = new String[translator.getCountryCodes().size()];
+
+            int i = 0;
+            for(String getCountryCode : translator.getCountryCodes()) {
+                items[i++] = cCode.fromCountryCode(getCountryCode);
+            }
+
+            // create the JList with the array of strings and set it to allow multiple
+            // items to be selected at once.
+            JList<String> list = new JList<>(items);
+            list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+            // place the JList in a scroll pane so that it is scrollable in the UI
+            JScrollPane scrollPane = new JScrollPane(list);
+            countryNameListPanel.add(scrollPane, 1);
+
+            /////////////
+
             // adding listener for when the user clicks the submit button
             submit.addActionListener(new ActionListener() {
                 @Override
@@ -61,6 +92,7 @@ public class GUI {
             mainPanel.add(countryPanel);
             mainPanel.add(languagePanel);
             mainPanel.add(buttonPanel);
+            mainPanel.add(countryNameListPanel);
 
             JFrame frame = new JFrame("Country Name Translator");
             frame.setContentPane(mainPanel);
