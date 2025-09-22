@@ -21,9 +21,13 @@ public class GUI {
             countryPanel.add(countryField);
 
             JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
-            languagePanel.add(new JLabel("Language:"));
-            languagePanel.add(languageField);
+            //combo box and function
+            JComboBox<String> languageComboBox = new JComboBox<>();
+            LanguageCodeConverter language = new LanguageCodeConverter();
+            for(String languageName : language.getLanguages()) {
+                languageComboBox.addItem(languageName);
+            }
+            languagePanel.add(languageComboBox);
 
             JPanel buttonPanel = new JPanel();
             JButton submit = new JButton("Submit");
@@ -39,7 +43,8 @@ public class GUI {
             submit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String language = languageField.getText();
+                    //gets the selected lanuage from the combobox and adds it to the languageChosen
+                    String language = languageComboBox.getSelectedItem().toString();
                     String country = countryField.getText();
 
                     // for now, just using our simple translator, but
