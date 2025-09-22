@@ -59,7 +59,7 @@ public class JSONTranslator implements Translator {
                         String languageCode = key;
 
                         languageCodes.add(languageCode);
-
+                        translations.put(countryCode +  "-" + languageCode, countryData.getString(key));
                         if (!languages.contains(languageCode)) {
                             languages.add(languageCode);
                         }
